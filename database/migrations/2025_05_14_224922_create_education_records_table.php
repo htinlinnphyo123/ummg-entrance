@@ -73,12 +73,12 @@ return new class extends Migration
         Schema::create('single_edu_eligible_marks', function (Blueprint $table) {
             $table->id();
             $table->string('exam_type');
-            $table->integer('sub_1');
-            $table->integer('sub_2');
-            $table->integer('sub_3');
-            $table->integer('sub_4');
-            $table->integer('sub_5');
-            $table->integer('sub_6');
+            $table->integer('sub_1')->default(0);
+            $table->integer('sub_2')->default(0);
+            $table->integer('sub_3')->default(0);
+            $table->integer('sub_4')->default(0);
+            $table->integer('sub_5')->default(0);
+            $table->integer('sub_6')->default(0);
             $table->timestamps();
         });
 

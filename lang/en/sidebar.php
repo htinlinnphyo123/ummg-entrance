@@ -18,5 +18,7 @@ return [
     'currency' => 'Currency',
     'page' => 'Pages',
     'catagory_menu' => 'Category',
-    'sponsorAd' => 'Sponsor Ads'
+    'sponsorAd' => 'Sponsor Ads',
+    'singleEduEligibleMark' => 'Single Subject Eligible Mark',
+    'singleEduEligibleMarks' => 'Single Subject Eligible Marks',
 ];

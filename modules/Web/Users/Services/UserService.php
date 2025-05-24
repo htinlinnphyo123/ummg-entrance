@@ -11,7 +11,6 @@ use BasicDashboard\Web\Common\BaseController;
 use BasicDashboard\Foundations\Domain\Users\User;
 use BasicDashboard\Web\Users\Resources\UserResource;
 use BasicDashboard\Web\Users\Resources\UserEditResource;
-use BasicDashboard\Foundations\Domain\Roles\Repositories\RoleRepositoryInterface;
 use BasicDashboard\Foundations\Domain\Users\Repositories\UserRepositoryInterface;
 
 class UserService extends BaseController
@@ -23,7 +22,6 @@ class UserService extends BaseController
 
     public function __construct(
         private UserRepositoryInterface $userRepository,
-        private RoleRepositoryInterface $roleRepository,
     ) {}
 
     ///////////////////////////This is Method Divider///////////////////////////////////////
@@ -132,12 +130,6 @@ class UserService extends BaseController
     }
 
     ///////////////////////////This is Method Divider///////////////////////////////////////
-
-    private function getRoleName(string $roleId)
-    {
-        return $this->roleRepository->connection(true)->where('id', $roleId)->value('name');
-    }
-
     private function uploadImageToCloud(User $user, object | null $image): array
     {
         $profilePhoto = $image ? $this->uploadImage($image, self::ROOT . "/" . $user->id) : null; //return image url string

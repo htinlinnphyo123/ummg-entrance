@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use BasicDashboard\Foundations\Domain\Users\Repositories\Eloquent\UserRepository;
 use BasicDashboard\Foundations\Domain\Users\Repositories\UserRepositoryInterface;
+use BasicDashboard\Foundations\Domain\SingleEduEligibleMarks\Repositories\Eloquent\SingleEduEligibleMarkRepository;
+use BasicDashboard\Foundations\Domain\SingleEduEligibleMarks\Repositories\SingleEduEligibleMarkRepositoryInterface;
 
 class RepositoryBindingProvider extends ServiceProvider
 {
@@ -16,6 +18,7 @@ class RepositoryBindingProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(UserRepositoryInterface::class,UserRepository::class);        
+        $this->app->bind(SingleEduEligibleMarkRepositoryInterface::class,SingleEduEligibleMarkRepository::class);
     }
 
     /**

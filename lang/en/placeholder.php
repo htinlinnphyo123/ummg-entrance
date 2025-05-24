@@ -83,6 +83,11 @@ return [
     'placeholder_article_site_url' => 'Please enter site url',
     'placeholder_article_tags' => 'Please enter hash tags for this article',
 
-    'placeholder_link' => 'Please enter link'
+    'placeholder_link' => 'Please enter link',
+    'placeholder_sub_1' => 'Please enter Minimum Marks',
+    'placeholder_sub_2' => 'Please enter Minimum Marks',
+    'placeholder_sub_3' => 'Please enter Minimum Marks',
+    'placeholder_sub_4' => 'Please enter Minimum Marks',
+    'placeholder_sub_5' => 'Please enter Minimum Marks',
 
 ];
