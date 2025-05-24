@@ -67,7 +67,7 @@ class EducationSeeder extends Seeder
     {
         $behsEligible = [
             [
-                'exam_type' => 'behs',
+                'exam_type' => 'BEHS',
                 'margin_score' => 374,
                 'eligible_score' => 0,
             ],[
@@ -164,7 +164,7 @@ class EducationSeeder extends Seeder
         foreach ($scores as $item) {
             $item['created_at'] = now();
             $item['updated_at'] = now();
-            DB::table('eligible_education_scores')->insert($item);
+            DB::table('education_eligible_score')->insert($item);
         }
     }
 

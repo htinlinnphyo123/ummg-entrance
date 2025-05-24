@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('education_eligible_score', function (Blueprint $table) {
             $table->id();
-            $table->integer('total_marks');
-            $table->decimal('total_score', 5, 2);
+            $table->integer('margin_score');
+            $table->integer('eligible_score');
             $table->string('exam_type');
             $table->timestamps();
         });
