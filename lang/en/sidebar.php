@@ -21,4 +21,6 @@ return [
     'sponsorAd' => 'Sponsor Ads',
     'singleEduEligibleMark' => 'Single Subject Eligible Mark',
     'singleEduEligibleMarks' => 'Single Subject Eligible Marks',
+    'educationEligibleScore' => 'Total Mark Scores',
+    'educationEligibleScores' => 'Total Mark Scores',
 ];

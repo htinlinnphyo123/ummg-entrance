@@ -106,6 +106,8 @@ return [
     'is_highlighed' => 'is Highligh',
     'is_banner' => 'is banner',
     'view' => 'Views',
+    'margin_score' => 'Margin Score',
+    'eligible_score' => 'Eligible Score',
     'created_date' => 'Created_Date_AND_Time',
 
     'ip_address' => 'Ip Address',

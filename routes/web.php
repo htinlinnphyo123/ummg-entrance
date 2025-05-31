@@ -6,6 +6,7 @@ use BasicDashboard\Web\Auth\Controllers\AuthController;
 use BasicDashboard\Web\Users\Controllers\UserController;
 use BasicDashboard\Web\Dashboard\Controllers\DashboardController;
 use BasicDashboard\Web\SingleEduEligibleMarks\Controllers\SingleEduEligibleMarkController;
+use BasicDashboard\Web\EducationEligibleScores\Controllers\EducationEligibleScoreController;
 
 Route::get('optimize-hey-yo', function () {
     Artisan::call('optimize:clear');
@@ -21,7 +22,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     require __DIR__ . "/Web/User/userRoute.php";
     Route::resource('singleEduEligibleMarks' ,SingleEduEligibleMarkController::class)->only('index','edit','show','update');
-
+    Route::resource('educationEligibleScores',EducationEligibleScoreController::class);
 });
 Route::get('/profile', [UserController::class, 'profile'])->name('userProfile')->middleware('auth');
 
