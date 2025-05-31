@@ -25,61 +25,25 @@
                 <!-- Profile menu -->
 
                 {{-- id="dropdownDefaultButton" data-dropdown-toggle="dropdown" --}}
-                <div class="relative">
-                    <div class="flex gap-3">
-                        <div>
-                            <strong class="text-gray-600 dark:text-white me-2" id="operatorName">{{ auth()->user()?->name }}</strong>
-                            <button id="dropdownDefaultButton" data-dropdown-toggle="logout"
-                                class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
-                                aria-label="Account" aria-haspopup="true" id="click">
-                                <img class="object-cover w-8 h-8 rounded-full"
-                                    src="{{ auth()->user()?->profile_photo ? retrievePublicFile(auth()->user()->profile_photo) : retrievePublicFile("/Default/default_profile_pic.jpg") }}"
-                                    alt="" aria-hidden="true" style="border: 1px solid #bababa;" />
-                            </button>
-                        </div>
-                        <!-- ... -->
-                    </div>
-                </div>
-                <!-- Dropdown menu -->
-                <div id="logout"
-                    class="z-10 hidden divide-y divide-gray-100 rounded-lg shadow w-60 dark:bg-gray-700 ">
-                    <ul class="text-sm text-gray-700 dark:text-gray-200 absolute w-60 rounded-lg shadow top-5 right-3 bg-theme px-5 py-3"
-                        aria-labelledby="dropdownDefaultButton">
-                        <li class="flex flex-col items-center ">
-                            <img class="object-cover w-16 h-16 rounded-full"
-                                src="{{ auth()->user()?->profile_photo ? retrievePublicFile(auth()->user()->profile_photo) : retrievePublicFile("/Default/default_profile_pic.jpg") }}"
-                                alt="" aria-hidden="true" style="border: 1px solid #bababa;" />
-                            <strong class="text-white text-lg py-2" id="operatorName">
-                                {{ auth()->user()?->name }}
-                            </strong>
-                            <strong class="text-gray-500 text-m">
-                                @if (Auth::user()?->role !== null)
-                                    {{ Auth::user()?->role->name }}
-                                @endif
-                            </strong>
-                        </li>
-                        <br>
-                        <li class="text-center">
-                            <a href="{{ route('userProfile') }}" class="mx-auto bg-white text-theme dark:bg-white dark:text-theme  font-medium rounded-lg text-sm
-                                inline-flex items-center px-5 py-2.5 text-center ml-2">
-                                {{ __('messages.profile_btn') }}
-                            </a>
-                            
-                        </li>
-                        <br>
-                        <li class="text-center">
-                            <form action="{{ route('logout') }}" method="POST" class="inline-flex w-full logoutForm">
-                                @csrf
-                                <a class="mx-auto">
-                                    <button
-                                        class="bg-white text-theme dark:bg-white dark:text-theme font-medium rounded-lg text-sm
-                                        inline-flex items-center px-5 py-2.5 text-center ml-2">
-                                        {{ __('messages.logout_btn') }}</button>
-                                </a>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
+                <li class="flex">
+                    <div class="text-gray-600 dark:text-gray-300" id="greetings"></div>
+                </li>
+
+                <script>
+                    const greetingsElement = document.getElementById('greetings');
+                    const currentHour = new Date().getHours();
+                    
+                    let greeting = '';
+                    if (currentHour >= 5 && currentHour < 12) {
+                        greeting = 'Good Morning';
+                    } else if (currentHour >= 12 && currentHour < 18) {
+                        greeting = 'Good Afternoon';
+                    } else {
+                        greeting = 'Good Night';
+                    }
+                    
+                    greetingsElement.textContent = greeting;
+                </script>
             </ul>
         </div>
     </div>

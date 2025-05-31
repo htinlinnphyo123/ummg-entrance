@@ -23,4 +23,5 @@ return [
     'singleEduEligibleMarks' => 'Single Subject Eligible Marks',
     'educationEligibleScore' => 'Total Mark Scores',
     'educationEligibleScores' => 'Total Mark Scores',
+    'minimumEligibleScore' => 'Minimum Eligible Score',
 ];

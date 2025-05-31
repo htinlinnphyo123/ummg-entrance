@@ -113,11 +113,10 @@ return [
     'ip_address' => 'Ip Address',
     'user_agent' => 'User Agent',
     'last_activity' => 'Last Activity',
-    'sub_1' => 'Subject 1',
-   'sub_2' => 'Subject 2',
-   'sub_3' => 'Subject 3',
-   'sub_4' => 'Subject 4',
-   'sub_5' => 'Subject 5',
-   'sub_6' => 'Subject 6',
+    'min_education' => 'Min Education',
+    'min_program' => 'Min Program',
+    'min_activity' => 'Min Activity',
+    'min_essay' => 'Min Essay',
+    'min_mental' => 'Min Mental',
 
 ];

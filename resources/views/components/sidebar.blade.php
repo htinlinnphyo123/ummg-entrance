@@ -55,6 +55,7 @@
                 </li>
                 <x-sidebar.list model="singleEduEligibleMarks" title="sidebar.singleEduEligibleMarks" icon="fa fa-square-poll-vertical" />
                 <x-sidebar.list model="educationEligibleScores" title="sidebar.educationEligibleScores" icon="fa fa-square-poll-vertical" />
+                <x-sidebar.list model="minimumEligibleScores" title="sidebar.minimumEligibleScore" icon="fa fa-square-poll-vertical" />
 
             </ul>
         </div>
