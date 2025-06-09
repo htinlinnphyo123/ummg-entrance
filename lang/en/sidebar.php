@@ -21,6 +21,7 @@ return [
     'sponsorAd' => 'Sponsor Ads',
     'singleEduEligibleMark' => 'Single Subject Eligible Mark',
     'singleEduEligibleMarks' => 'Single Subject Eligible Marks',
+    'applicantRecord' => 'Applicant Record',
     'educationEligibleScore' => 'Total Mark Scores',
     'educationEligibleScores' => 'Total Mark Scores',
     'minimumEligibleScore' => 'Minimum Eligible Score',

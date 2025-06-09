@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use BasicDashboard\Foundations\Domain\Users\Repositories\Eloquent\UserRepository;
 use BasicDashboard\Foundations\Domain\Users\Repositories\UserRepositoryInterface;
+use BasicDashboard\Foundations\Domain\ApplicantRecord\Repositories\ApplicantRecordRepositoryInterface;
+use BasicDashboard\Foundations\Domain\ApplicantRecord\Repositories\Eloquent\ApplicantRecordRepository;
 use BasicDashboard\Foundations\Domain\MinimumEligibleScore\Repositories\Eloquent\MinimumEligibleScoreRepository;
 use BasicDashboard\Foundations\Domain\MinimumEligibleScore\Repositories\MinimumEligibleScoreRepositoryInterface;
 use BasicDashboard\Foundations\Domain\SingleEduEligibleMarks\Repositories\Eloquent\SingleEduEligibleMarkRepository;
@@ -25,6 +27,7 @@ class RepositoryBindingProvider extends ServiceProvider
         $this->app->bind(SingleEduEligibleMarkRepositoryInterface::class,SingleEduEligibleMarkRepository::class);
         $this->app->bind(EducationEligibleScoreRepositoryInterface::class,EducationEligibleScoreRepository::class);
         $this->app->bind(MinimumEligibleScoreRepositoryInterface::class,MinimumEligibleScoreRepository::class);
+        $this->app->bind(ApplicantRecordRepositoryInterface::class,ApplicantRecordRepository::class);
     }
 
     /**

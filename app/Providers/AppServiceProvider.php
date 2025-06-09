@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Paginator::useTailwind();
         //To Test Log for database query
         // DB::listen(function ($query) {
         //     \Log::info($query->sql, ['bindings' => $query->bindings, 'time' => $query->time]);

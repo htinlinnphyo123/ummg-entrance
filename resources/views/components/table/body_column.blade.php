@@ -3,6 +3,6 @@
     @if ($image)
         <img src="{{ $field }}" alt="" class="{{ $imageStyle }}">
     @else
-        {{ Str::limit($field, $limit) }}
+        {!! $field !!}
     @endif
 </td>

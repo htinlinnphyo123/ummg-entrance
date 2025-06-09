@@ -5,9 +5,10 @@ use Illuminate\Support\Facades\Artisan;
 use BasicDashboard\Web\Auth\Controllers\AuthController;
 use BasicDashboard\Web\Users\Controllers\UserController;
 use BasicDashboard\Web\Dashboard\Controllers\DashboardController;
+use BasicDashboard\Web\ApplicantRecord\Controllers\ApplicantRecordController;
+use BasicDashboard\Web\MinimumEligibleScore\Controllers\MinimumEligibleScoreController;
 use BasicDashboard\Web\SingleEduEligibleMarks\Controllers\SingleEduEligibleMarkController;
 use BasicDashboard\Web\EducationEligibleScores\Controllers\EducationEligibleScoreController;
-use BasicDashboard\Web\MinimumEligibleScore\Controllers\MinimumEligibleScoreController;
 
 Route::get('optimize-hey-yo', function () {
     Artisan::call('optimize:clear');
@@ -25,6 +26,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('singleEduEligibleMarks' ,SingleEduEligibleMarkController::class)->only('index','edit','show','update');
     Route::resource('educationEligibleScores',EducationEligibleScoreController::class);
     Route::resource('minimumEligibleScores',MinimumEligibleScoreController::class);
+    Route::resource('applicantRecords' ,ApplicantRecordController::class);
+    Route::post('/applicantRecords/{id}/manual-eligible', [ApplicantRecordController::class, 'manualEligible'])->name('applicantRecords.manualEligible');
 });
 Route::get('/profile', [UserController::class, 'profile'])->name('userProfile')->middleware('auth');
 

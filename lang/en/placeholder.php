@@ -89,5 +89,16 @@ return [
     'placeholder_sub_3' => 'Please enter Minimum Marks',
     'placeholder_sub_4' => 'Please enter Minimum Marks',
     'placeholder_sub_5' => 'Please enter Minimum Marks',
+    'placeholder_sub_6' => 'Please enter Minimum Marks',
+    'placeholder_applicant_sr' => 'Please enter Applicant SR',
+    'placeholder_mesid' => 'Please enter MESID',
+    'placeholder_current_school' => 'Please enter current school',
+    'placeholder_additional_data1' => 'Please enter additional data 1',
+    'placeholder_additional_data2' => 'Please enter additional data 2',
+    'placeholder_enter_mark' => 'Please enter mark',
+    'placeholder_essay_score' => 'Please enter essay score',
+    'placeholder_mental_score' => 'Please enter mental score',
+    'placeholder_activity_score' => 'Please enter activity score',
+    'placeholder_month' => 'Please enter month',
 
 ];

@@ -90,6 +90,8 @@ return [
 
     //Page
     'page_title' => 'Page Title',
+    'total_scores' => 'Total Scores',
+    'final_eligibility' => 'Final Eligibility',
 
     //Audit
     'id' => "ID",
@@ -118,5 +120,29 @@ return [
     'min_activity' => 'Min Activity',
     'min_essay' => 'Min Essay',
     'min_mental' => 'Min Mental',
+    'sub_1' => 'Sub-1',
+   'sub_2' => 'Sub-2',
+   'sub_3' => 'Sub-3',
+   'sub_4' => 'Sub-4',
+   'sub_5' => 'Sub-5',
+   'sub_6' => 'Sub-6',
+   'question_1' => 'Question 1',
+   'question_2' => 'Question 2',
+   'question_3' => 'Question 3',
+   'question_4' => 'Question 4',
+   'question_5' => 'Question 5',
+   'essay_score' => 'Essay Score',
+   'mental_score' => 'Mental Score',
+   'activity_score' => 'Activity Score',
+   'month' => 'Month',
+   'activity_type' => 'Activity Type',
+   'program_score' => 'Program Score',
+   'education_score' => 'BE Score',
+   'total_edu_marks' => 'Total BE Marks', 
+   'applicant_sr' => 'Applicant ID',
+   'mesid' => 'MES ID',
+   'current_school' => 'Current School',
+   'additional_data1' => 'Additional Data 1',
+   'additional_data2' => 'Additional Data 2',
 
 ];

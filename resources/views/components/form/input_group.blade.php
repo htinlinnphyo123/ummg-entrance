@@ -9,10 +9,11 @@
     'placeholder'=> null,
     'helperText' => null,
     'ajaxError' => null,
-    'disabled' => false
+    'disabled' => false,
+    'labelID' => null,
 ])
 <x-form.control>
-    <x-form.label :title="$title" :required="$required" />
+    <x-form.label :title="$title" :required="$required" :labelID="$labelID"/>
     <div class="{{ $playEye ? 'relative' : '' }}">
         <x-form.input :type="$type" name="{{ $name }}" :id="$id" value="{{ $value }}" :placeholder="$placeholder" :disabled="$disabled" />
         @if ($playEye)

@@ -41,7 +41,7 @@
                 <li
                     class="flex flex-col justify-end items-center mx-2 menu-title pb-4 border-b border-gray-700/25 gap-2">
                     <x-theme.adjustTheme />
-                    <x-localization.lang />
+                    {{-- <x-localization.lang /> --}}
                 </li>
                 {{-- Start Dashboard --}}
                 <li class="{{ request()->routeIs('dashboard.index') ? 
@@ -56,6 +56,8 @@
                 <x-sidebar.list model="singleEduEligibleMarks" title="sidebar.singleEduEligibleMarks" icon="fa fa-square-poll-vertical" />
                 <x-sidebar.list model="educationEligibleScores" title="sidebar.educationEligibleScores" icon="fa fa-square-poll-vertical" />
                 <x-sidebar.list model="minimumEligibleScores" title="sidebar.minimumEligibleScore" icon="fa fa-square-poll-vertical" />
+                <x-sidebar.list model="applicantRecords" title="sidebar.applicantRecord" icon="fa fa-square-poll-vertical" />
+
 
             </ul>
         </div>

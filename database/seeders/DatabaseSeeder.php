@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             SingleEduEligibleMark::class,
             EducationSeeder::class,
+            MinimumEligibleScoreSeeder::class,
         ]);
     }
 }

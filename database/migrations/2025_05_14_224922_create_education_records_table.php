@@ -22,52 +22,33 @@ return new class extends Migration
         Schema::create('applicant_records', function (Blueprint $table) {
             $table->id();
 
-            $table->string('application_sr');
-            $table->string('mesid');
-            $table->string('email');
-            $table->string('current_school');
+            $table->string('applicant_sr')->nullable();
+            $table->string('mesid')->nullable();
+            $table->string('email')->nullable();
+            $table->string('current_school')->nullable();
             $table->string('additional_data1')->nullable();
             $table->string('additional_data2')->nullable();
+
             $table->string('exam_type');
-            $table->integer('sub_1')->default(0);
-            $table->integer('sub_2')->default(0);
-            $table->integer('sub_3')->default(0);
-            $table->integer('sub_4')->default(0);
-            $table->integer('sub_5')->default(0);
-            $table->integer('sub_6')->default(0);
-            $table->integer('total_edu_marks')->default(0);
-            $table->integer('education_score')->default(0);
-            $table->integer('program_score')->default(0);
-            $table->integer('mental_score')->default(0);
-            $table->integer('essay_score')->default(0);
-            $table->integer('activity_score')->default(0);
+            $table->double('sub_1')->nullable();
+            $table->double('sub_2')->nullable();
+            $table->double('sub_3')->nullable();
+            $table->double('sub_4')->nullable();
+            $table->double('sub_5')->nullable();
+            $table->double('sub_6')->nullable();
+            $table->double('total_edu_marks')->default(0);
+
+            $table->double('program_score')->default(0);
+
+            $table->double('mental_score')->nullable();
+
+            $table->double('essay_score')->nullable();
+
+            $table->string('activity_type')->nullable();
+            $table->string('month')->nullable();
+            $table->double('activity_score')->nullable();
+            $table->boolean('manual_eligible')->default(false);
             $table->timestamps();
-        });
-
-        Schema::create('program', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('record_id');
-            $table->boolean('question_1')->default(false);
-            $table->boolean('question_2')->default(false);
-            $table->boolean('question_3')->default(false);
-            $table->boolean('question_4')->default(false);
-            $table->boolean('question_5')->default(false);
-            $table->unsignedSmallInteger('total_score');
-            $table->timestamps();
-
-            $table->foreign('record_id')->references('id')->on('applicant_records')->onDelete('cascade');
-        });
-
-        Schema::create('activity', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('record_id');
-            $table->string('activity_type');
-            $table->string('month');
-            $table->boolean('is_approved')->default(false);
-            $table->string('total_score');
-            $table->timestamps();
-
-            $table->foreign('record_id')->references('id')->on('applicant_records')->onDelete('cascade');
         });
 
         Schema::create('single_edu_eligible_marks', function (Blueprint $table) {
