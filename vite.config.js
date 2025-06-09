@@ -24,6 +24,7 @@ export default defineConfig({
         "resources/js/common/deleteConfirm.js",
         "resources/js/common/errorValidation.js",
         "resources/js/common/loading.js",
+        "resources/js/common/fieldSetToggler.js",
         "resources/js/common/loginEyes.js",
         "resources/js/common/loginEyesAll.js",
         "resources/js/common/loginEyesNew.js",
