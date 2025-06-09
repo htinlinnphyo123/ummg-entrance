@@ -47,22 +47,12 @@
 
         </x-show.grid>
         <x-show.grid :isBackground='true' class="my-4">
-            <x-show.text_group title="applicantRecord.question_1" :data="$data['question_1']" />
-            <x-show.text_group title="applicantRecord.question_2" :data="$data['question_2']" />
-            <x-show.text_group title="applicantRecord.question_3" :data="$data['question_3']" />
-            <x-show.text_group title="applicantRecord.question_4" :data="$data['question_4']" />
-            <x-show.text_group title="applicantRecord.question_5" :data="$data['question_5']" />
             <x-show.text_group title="applicantRecord.program_score" :data="$data['program_score']" />
-        </x-show.grid>
-        <x-show.grid :isBackground='true' class="my-4">
             <x-show.text_group title="applicantRecord.essay_score" :data="$data['essay_score']" />
             <x-show.text_group title="applicantRecord.mental_score" :data="$data['mental_score']" />
             <x-show.text_group title="applicantRecord.activity_type" :data="$data['activity_type']" />
             <x-show.text_group title="applicantRecord.month" :data="$data['month']" />
             <x-show.text_group title="applicantRecord.activity_score" :data="$data['activity_score']" />
         </x-show.grid>
-        <x-show.fieldset title="Program Records">
-            <x-show.text_group title="applicantRecord.program_score" :data="$data['program_score']" />
-        </x-show.fieldset>
     </x-form.layout>
 </x-master-layout>
