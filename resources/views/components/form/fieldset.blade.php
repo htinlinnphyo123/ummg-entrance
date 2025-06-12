@@ -1,5 +1,5 @@
 @props(['title','openTag'=>true])
-<div class="relative border border-gray-200 rounded-lg shadow-md hover:shadow-xl my-4 lg:my-12">
+<div class="relative border border-gray-200 rounded-lg shadow-md hover:shadow-xl my-4 lg:my-6">
     <div class="flex items-center justify-between px-4 py-2 cursor-pointer fieldset-header">
         <p class="bg-gray-50 dark:bg-gray-600 dark:text-white px-2 text-md select-none">{{ __($title) }}</p>
         <button type="button" class="text-gray-500">

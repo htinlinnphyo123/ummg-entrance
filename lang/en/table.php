@@ -110,6 +110,9 @@ return [
     'view' => 'Views',
     'margin_score' => 'Margin Score',
     'eligible_score' => 'Eligible Score',
+    'actual_score' => 'Actual Score',
+    'grade_point' => 'Grade Point',
+    'grade' => 'Grade',
     'created_date' => 'Created_Date_AND_Time',
 
     'ip_address' => 'Ip Address',
@@ -126,6 +129,7 @@ return [
    'sub_4' => 'Sub-4',
    'sub_5' => 'Sub-5',
    'sub_6' => 'Sub-6',
+   'show_mark' => 'Detail',
    'question_1' => 'Question 1',
    'question_2' => 'Question 2',
    'question_3' => 'Question 3',

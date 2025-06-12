@@ -37,8 +37,9 @@ class ApplicantRecordService extends BaseController
     public function index(array $request): View
     {
         $applicantRecordList = $this->applicantRecordRepositoryInterface->getApplicantRecordList($request);
+        $applicantRecordCount = $this->applicantRecordRepositoryInterface->getCount($request);
         $applicantRecordList = ApplicantRecordIndexResource::collection($applicantRecordList)->response()->getData(true);
-        return $this->returnView(self::VIEW.".index", $applicantRecordList);
+        return $this->returnView(self::VIEW.".index", data: [$applicantRecordList,$applicantRecordCount]);
     }
 
     ///////////////////////////This is Method Divider///////////////////////////////////////

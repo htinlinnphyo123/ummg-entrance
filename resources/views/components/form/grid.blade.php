@@ -1,3 +1,3 @@
-<div class="grid gap-2 md:gap-4 md:grid-cols-2">
+<div class="grid md:gap-4 md:grid-cols-3 border-b-2 border-black py-2">
     {{ $slot }}
 </div>

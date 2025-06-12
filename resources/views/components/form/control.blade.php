@@ -1,3 +1,4 @@
-<div class="mb-4 py-2">
+@props(['id'=>null])
+<div @if($id) id="{{ $id }}" @endif>
     {{ $slot }}
 </div>

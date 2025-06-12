@@ -15,7 +15,7 @@
                 </div>
             </div>
             <x-table.wrapper>
-                <x-table.header :fields="['exam_type','margin_score','eligible_score']" />
+                <x-table.header :fields="['exam_type','actual_score','grade_point']" />
                 <x-table.body :data="$data">
                     @foreach ($data['data'] as $record)
                         <x-table.body_row>
