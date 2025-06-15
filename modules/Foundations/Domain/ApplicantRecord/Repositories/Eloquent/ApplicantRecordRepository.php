@@ -133,8 +133,8 @@ class ApplicantRecordRepository extends BaseRepository implements ApplicantRecor
                 $query->orderBy(\DB::raw('CAST(applicant_records.applicant_sr AS UNSIGNED)'), 'asc');
             })
             ->when($keyword, function ($query) use ($keyword) {
-                $query->where('applicant_records.applicant_sr', 'like', '%' . $keyword . '%')
-                    ->orWhere('applicant_records.mesid', 'like', '%' . $keyword . '%');
+                $query->where('applicant_records.applicant_sr',$keyword)
+                    ->orWhere('applicant_records.mesid',$keyword);
             })
             ->when($sortEligible, function ($query) {
                 $query->orderByRaw("
