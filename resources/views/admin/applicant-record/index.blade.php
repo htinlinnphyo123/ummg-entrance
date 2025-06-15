@@ -8,7 +8,7 @@
             <div class="mt-4 flex gap-4">
                 <form method="GET" action="{{ route('applicantRecords.index') }}" class="flex flex-col md:flex-row items-center gap-2">
                     <label for="exam_type" class="text-sm font-medium">{{ __('table.exam_type') }}:</label>
-                    <select name="exam_type" id="exam_type" class="form-select rounded border-gray-300" onchange="storeFilters(); this.form.submit()">
+                    <select name="exam_type" id="exam_type" class="form-select rounded border-gray-300">
                         <option value="">All</option>
                         @foreach (App\Enums\ExamType::cases() as $type)
                             <option value="{{ $type->value }}" {{ request('exam_type') == $type->value ? 'selected' : '' }}>
@@ -25,13 +25,19 @@
                         {{ request('sort_taken') == 'taken' ? 'Sort By Default' : 'Sort By Taken' }}
                     </button>
                 </form>
+                <form method="GET" action="{{ route('applicantRecords.index') }}" class="flex flex-col md:flex-row items-center gap-2">
+                    <button type="submit" name="sort_applicant_id" value="{{ request('sort_applicant_id') == 'asc' ? 'desc' : 'asc' }}" class="px-4 py-2 text-sm font-medium text-white bg-purple-500 rounded hover:bg-purple-600" onclick="storeFilters()">
+                        Sort By Applicant ID
+                    </button>
+                </form>
             </div>
             @php
                 $eligibleCount = $data[1]->eligible_count;
                 $manualEligibleCount = $data[1]->manual_eligible_count;
                 $notEligibleCount = $data[1]->not_eligible_count;
+                $finalTakeCount = $data[1]->final_take_count;
             @endphp
-            <div class="grid grid-cols-3 gap-4 mt-4">
+            <div class="grid grid-cols-4 gap-4 mt-4">
                 <div class="bg-white rounded-lg shadow p-4">
                     <h3 class="text-lg font-semibold text-gray-700">Eligible</h3>
                     <p class="text-3xl font-bold text-green-500">{{ $eligibleCount }}</p>
@@ -43,6 +49,10 @@
                 <div class="bg-white rounded-lg shadow p-4">
                     <h3 class="text-lg font-semibold text-gray-700">Not Eligible</h3>
                     <p class="text-3xl font-bold text-red-500">{{ $notEligibleCount }}</p>
+                </div>
+                <div class="bg-white rounded-lg shadow p-4">
+                    <h3 class="text-lg font-semibold text-gray-700">Final Take</h3>
+                    <p class="text-3xl font-bold text-yellow-500">{{ $finalTakeCount }}</p>
                 </div>
             </div>
             <x-table.wrapper>
@@ -164,9 +174,7 @@
                                                 modal.remove();
                                             }, 2000);
                                         })
-                                        .then(data => {
-                                            // Optional: Show success message
-                                            
+                                        .then(data => {                                            
                                             console.log('Update successful');
                                         })
                                         .catch(error => {
@@ -195,34 +203,4 @@
         </div>
     </main>
     @vite('resources/js/common/deleteConfirm.js') 
-<script>
-    // Store filter values in session storage
-    function storeFilters() {
-        const examType = document.getElementById('exam_type').value;
-        const sortEligible = document.querySelector('[name="sort_eligible"]')?.value || '';
-        
-        sessionStorage.setItem('applicantRecordFilters', JSON.stringify({
-            exam_type: examType,
-            sort_eligible: sortEligible
-        }));
-    }
-    
-    // Restore filter values from session storage
-    document.addEventListener('DOMContentLoaded', function() {
-        const savedFilters = sessionStorage.getItem('applicantRecordFilters');
-        if (savedFilters) {
-            const filters = JSON.parse(savedFilters);
-            
-            // Set exam type select value
-            if (filters.exam_type) {
-                const examTypeSelect = document.getElementById('exam_type');
-                if (examTypeSelect) {
-                    examTypeSelect.value = filters.exam_type;
-                }
-            }
-            
-            // Note: The sort_eligible button state is handled by the server-side rendering
-        }
-    });
-</script>
 </x-master-layout>

@@ -5,8 +5,7 @@ $("#btnSearch").on("click", function () {
   url = url.split("?");
   url = url[0];
   let keyword = $("#table-search").val();
-  let date = $("#date").val();
-  let newUrl = `${url}?keyword=${keyword}&date=${date}`;
+  let newUrl = `${url}?keyword=${keyword}`;
   $(this).attr("href", newUrl);
 });
 

@@ -44,6 +44,45 @@
                     
                     greetingsElement.textContent = greeting;
                 </script>
+
+                <li class="relative">
+                    <button onclick="confirmLogout()"
+                        class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none text-gray-600 dark:text-gray-300"
+                        aria-label="Logout">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                        </svg>
+                    </button>
+                </li>
+
+                <script>
+                    function confirmLogout() {
+                        const sure = document.getElementById('r-u-sure').value;
+                        const loginAgain = document.getElementById('login-again').value;
+                        const yesLogout = document.getElementById('yes-logout').value;
+                        const cancel = document.getElementById('cancel').value;
+
+                        if (confirm(sure + '\n' + loginAgain)) {
+                            // Create form element
+                            const form = document.createElement('form');
+                            form.method = 'POST';
+                            form.action = "{{ route('logout') }}";
+                            
+                            // Add CSRF token
+                            const csrfToken = document.createElement('input');
+                            csrfToken.type = 'hidden';
+                            csrfToken.name = '_token';
+                            csrfToken.value = "{{ csrf_token() }}";
+                            form.appendChild(csrfToken);
+                            
+                            // Add form to document and submit
+                            document.body.appendChild(form);
+                            form.submit();
+                        }
+                    }
+                </script>
             </ul>
         </div>
     </div>
@@ -51,5 +90,4 @@
     <input type="hidden" value="{{ __('messages.login_again') }}" id="login-again">
     <input type="hidden" value="{{ __('messages.yes_logout') }}" id="yes-logout">
     <input type="hidden" value="{{ __('messages.cancel') }}" id="cancel">
-    @vite('resources/js/common/logoutConfirm.js')
 </header>
