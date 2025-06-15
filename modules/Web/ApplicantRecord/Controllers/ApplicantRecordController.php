@@ -7,6 +7,7 @@ use BasicDashboard\Web\ApplicantRecord\Services\ApplicantRecordService;
 use BasicDashboard\Web\ApplicantRecord\Validation\StoreApplicantRecordRequest;
 use BasicDashboard\Web\ApplicantRecord\Validation\UpdateApplicantRecordRequest;
 use BasicDashboard\Web\ApplicantRecord\Validation\DeleteApplicantRecordRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -82,6 +83,11 @@ class ApplicantRecordController extends BaseController
     public function manualEligible($id): RedirectResponse
     {
         return $this->applicantRecordService->manualEligible($id);
+    }
+
+    public function updateFinalTake(Request $request, $id): JsonResponse
+    {
+        return $this->applicantRecordService->updateFinalTake($request->final_take, $id);
     }
 
 }

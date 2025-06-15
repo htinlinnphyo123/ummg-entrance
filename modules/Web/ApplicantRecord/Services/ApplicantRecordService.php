@@ -9,6 +9,7 @@ use BasicDashboard\Web\ApplicantRecord\Resources\ApplicantRecordResource;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Exception;
+use Illuminate\Http\JsonResponse;
 
 /**
  *
@@ -122,6 +123,18 @@ class ApplicantRecordService extends BaseController
             return $this->redirectRoute(self::ROUTE . ".index", __(self::LANG_PATH . '_manualEligible'));
         } catch (Exception $e) {
             return $this->redirectBackWithError($this->applicantRecordRepositoryInterface, $e);
+        }
+    }
+
+    public function updateFinalTake($request, string $id): JsonResponse
+    {
+        try {
+            $this->applicantRecordRepositoryInterface->beginTransaction();
+            $this->applicantRecordRepositoryInterface->connection(true)->where('id', $id)->update(['final_take' => $request]);
+            $this->applicantRecordRepositoryInterface->commit();
+            return response()->json(['message' => __(self::LANG_PATH . '_updateFinalTake')]);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 

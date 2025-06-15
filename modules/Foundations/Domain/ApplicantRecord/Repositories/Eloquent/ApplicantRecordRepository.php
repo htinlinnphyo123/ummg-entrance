@@ -79,10 +79,26 @@ class ApplicantRecordRepository extends BaseRepository implements ApplicantRecor
                     )
                     THEN 'Not Eligible'
                     ELSE 'Eligible'
-                END as final_eligibility")
+                END as final_eligibility"),
+                
+                \DB::raw("(
+                    SELECT 
+                        CASE WHEN applicant_records.sub_1 >= seem.sub_1 THEN 1 ELSE 0 END +
+                        CASE WHEN applicant_records.sub_2 >= seem.sub_2 THEN 1 ELSE 0 END +
+                        CASE WHEN applicant_records.sub_3 >= seem.sub_3 THEN 1 ELSE 0 END +
+                        CASE WHEN applicant_records.sub_4 >= seem.sub_4 THEN 1 ELSE 0 END +
+                        CASE WHEN applicant_records.sub_5 >= seem.sub_5 THEN 1 ELSE 0 END +
+                        CASE WHEN applicant_records.sub_6 >= seem.sub_6 THEN 1 ELSE 0 END
+                    FROM single_edu_eligible_marks seem
+                    WHERE seem.exam_type = applicant_records.exam_type
+                    LIMIT 1
+                ) as total_passed_subject")
             )
             ->when($params['exam_type'] ?? false, function ($query) use ($params) {
                 $query->where('applicant_records.exam_type', $params['exam_type']);
+            })
+            ->when($params['sort_taken'] ?? false,function($query){
+                $query->orderBy('applicant_records.final_take','desc');
             })
             ->when($params['sort_eligible'] ?? false, function ($query) {
                 $query->orderByRaw("

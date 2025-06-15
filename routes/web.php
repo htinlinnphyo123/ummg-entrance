@@ -28,6 +28,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('minimumEligibleScores',MinimumEligibleScoreController::class);
     Route::resource('applicantRecords' ,ApplicantRecordController::class);
     Route::post('/applicantRecords/{id}/manual-eligible', [ApplicantRecordController::class, 'manualEligible'])->name('applicantRecords.manualEligible');
+    Route::patch('/applicantRecords/{id}/update-final-take', [ApplicantRecordController::class, 'updateFinalTake'])->name('applicantRecords.updateFinalTake');
 });
 Route::get('/profile', [UserController::class, 'profile'])->name('userProfile')->middleware('auth');
 
