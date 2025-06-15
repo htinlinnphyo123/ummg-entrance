@@ -8,7 +8,7 @@
             <div class="mt-4 flex gap-4">
                 <form method="GET" action="{{ route('applicantRecords.index') }}" class="flex flex-col md:flex-row items-center gap-2">
                     <label for="exam_type" class="text-sm font-medium">{{ __('table.exam_type') }}:</label>
-                    <select name="exam_type" id="exam_type" class="form-select rounded border-gray-300">
+                    <select name="exam_type" id="exam_type" class="form-select rounded border-gray-300" onchange="this.form.submit()">
                         <option value="">All</option>
                         @foreach (App\Enums\ExamType::cases() as $type)
                             <option value="{{ $type->value }}" {{ request('exam_type') == $type->value ? 'selected' : '' }}>
