@@ -56,7 +56,7 @@
                 </div>
             </div>
             <x-table.wrapper>
-                <x-table.header :fields="['applicant_sr', 'mesid', 'exam_type','is_bio', 'total_edu_marks','show_mark','education_score','essay_score', 'mental_score', 'activity_score', 'program_score', 'total_scores', 'final_eligibility','final_take']" />
+                <x-table.header :fields="['applicant_sr', 'mesid', 'exam_type','is_bio','year', 'total_edu_marks','show_mark','education_score','essay_score', 'mental_score', 'activity_score', 'program_score', 'total_scores', 'final_eligibility','final_take']" />
                 <x-table.body>
                     @foreach ($data[0]['data'] as $record)
                         <x-table.body_row>
@@ -64,6 +64,7 @@
                             <x-table.body_column :field="$record['mesid']"  />
                             <x-table.body_column :field="$record['exam_type']"  />
                             <x-table.body_column :field="$record['is_bio'] ? 'Yes' : 'No'"  />
+                            <x-table.body_column :field="$record['additional_data1']"  />
                             <x-table.body_column :field="$record['total_edu_marks'] . ' / ' . $record['total_passed_subject']"  />
                             @php
                                 $educationEligible = $record['education_eligible'] == 'pass' ? "<span class='text-green-500'>pass</span>" : "<span class='text-red-500'>fail</span>";
