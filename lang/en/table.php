@@ -122,7 +122,7 @@ return [
     'min_program' => 'Min Program',
     'min_activity' => 'Min Activity',
     'min_essay' => 'Min Essay',
-    'min_mental' => 'Min Mental',
+    'min_mental' => 'Max Mental',
     'sub_1' => 'Sub-1',
    'sub_2' => 'Sub-2',
    'sub_3' => 'Sub-3',

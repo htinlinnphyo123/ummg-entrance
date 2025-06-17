@@ -56,7 +56,7 @@
                 </div>
             </div>
             <x-table.wrapper>
-                <x-table.header :fields="['applicant_sr', 'mesid', 'exam_type','is_bio','year', 'total_edu_marks','show_mark','education_score','essay_score', 'mental_score', 'activity_score', 'program_score', 'total_scores', 'final_eligibility','final_take']" />
+                <x-table.header :fields="['applicant_sr', 'mesid', 'exam_type','is_bio','year', 'total_edu_marks','show_mark','education_score', 'program_score', 'essay_score','activity_score', 'mental_score','total_scores', 'final_eligibility','final_take']" />
                 <x-table.body>
                     @foreach ($data[0]['data'] as $record)
                         <x-table.body_row>
@@ -104,10 +104,10 @@
                                 }
                             </script>
                             <x-table.body_column :field="($record['education_score'] ?? 0) . '/' . $educationEligible"  />
-                            <x-table.body_column :field="$record['essay_score'] . '/' . $essayEligible"  />
-                            <x-table.body_column :field="$record['mental_score'] . '/' . $mentalEligible"  />
-                            <x-table.body_column :field="$record['activity_score'] . '/' . $activityEligible"  />
                             <x-table.body_column :field="$record['program_score'] . '/' . $programEligible"  />
+                            <x-table.body_column :field="$record['essay_score'] . '/' . $essayEligible"  />
+                            <x-table.body_column :field="$record['activity_score'] . '/' . $activityEligible"  />
+                            <x-table.body_column :field="$record['mental_score'] . '/' . $mentalEligible"  />
                             <x-table.body_column :field="$record['total_scores']"  />
                             @php
                                 if($record['manual_eligible']){

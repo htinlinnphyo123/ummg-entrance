@@ -69,7 +69,7 @@ class ApplicantRecordRepository extends BaseRepository implements ApplicantRecor
                         LIMIT 1
                     )
                     THEN 'pass' ELSE 'fail' END as education_eligible"),
-                \DB::raw("CASE WHEN applicant_records.mental_score >= minimum_eligible_scores.min_mental THEN 'pass' ELSE 'fail' END as mental_eligible"),
+                \DB::raw("CASE WHEN applicant_records.mental_score <= minimum_eligible_scores.min_mental THEN 'pass' ELSE 'fail' END as mental_eligible"),
                 \DB::raw("CASE WHEN applicant_records.activity_score >= minimum_eligible_scores.min_activity THEN 'pass' ELSE 'fail' END as activity_eligible"), 
                 \DB::raw("CASE WHEN applicant_records.program_score >= minimum_eligible_scores.min_program THEN 'pass' ELSE 'fail' END as program_eligible"),
                 \DB::raw("CASE WHEN applicant_records.essay_score >= minimum_eligible_scores.min_essay THEN 'pass' ELSE 'fail' END as essay_eligible"),
@@ -102,7 +102,7 @@ class ApplicantRecordRepository extends BaseRepository implements ApplicantRecor
                             ORDER BY education_eligible_score.margin_score DESC
                             LIMIT 1
                         ) < minimum_eligible_scores.min_education
-                        OR applicant_records.mental_score < minimum_eligible_scores.min_mental
+                        OR applicant_records.mental_score > minimum_eligible_scores.min_mental
                         OR applicant_records.program_score < minimum_eligible_scores.min_program
                         OR applicant_records.essay_score < minimum_eligible_scores.min_essay
                     )
@@ -164,7 +164,7 @@ class ApplicantRecordRepository extends BaseRepository implements ApplicantRecor
                             ORDER BY margin_score DESC
                             LIMIT 1
                         ) >= minimum_eligible_scores.min_education
-                        AND applicant_records.mental_score >= minimum_eligible_scores.min_mental
+                        AND applicant_records.mental_score <= minimum_eligible_scores.min_mental
                         AND applicant_records.program_score >= minimum_eligible_scores.min_program
                         AND applicant_records.essay_score >= minimum_eligible_scores.min_essay
                     ) THEN 1 END) as eligible_count,
@@ -185,7 +185,7 @@ class ApplicantRecordRepository extends BaseRepository implements ApplicantRecor
                             ORDER BY margin_score DESC
                             LIMIT 1
                         ) < minimum_eligible_scores.min_education
-                        OR applicant_records.mental_score < minimum_eligible_scores.min_mental
+                        OR applicant_records.mental_score > minimum_eligible_scores.min_mental
                         OR applicant_records.program_score < minimum_eligible_scores.min_program
                         OR applicant_records.essay_score < minimum_eligible_scores.min_essay
                     ) AND manual_eligible = 1 THEN 1 END) as manual_eligible_count,
