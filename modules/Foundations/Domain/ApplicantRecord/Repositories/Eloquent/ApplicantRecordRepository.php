@@ -105,6 +105,20 @@ class ApplicantRecordRepository extends BaseRepository implements ApplicantRecor
                         OR applicant_records.mental_score > minimum_eligible_scores.min_mental
                         OR applicant_records.program_score < minimum_eligible_scores.min_program
                         OR applicant_records.essay_score < minimum_eligible_scores.min_essay
+                        OR EXISTS (
+                            SELECT 1 
+                            FROM single_edu_eligible_marks seem
+                            WHERE seem.exam_type = applicant_records.exam_type
+                            AND (
+                                applicant_records.sub_1 < seem.sub_1 OR
+                                applicant_records.sub_2 < seem.sub_2 OR
+                                applicant_records.sub_3 < seem.sub_3 OR
+                                applicant_records.sub_4 < seem.sub_4 OR
+                                applicant_records.sub_5 < seem.sub_5 OR
+                                applicant_records.sub_6 < seem.sub_6
+                            )
+                            LIMIT 1
+                        )
                     )
                     THEN 'Not Eligible'
                     ELSE 'Eligible'
@@ -167,6 +181,20 @@ class ApplicantRecordRepository extends BaseRepository implements ApplicantRecor
                         AND applicant_records.mental_score <= minimum_eligible_scores.min_mental
                         AND applicant_records.program_score >= minimum_eligible_scores.min_program
                         AND applicant_records.essay_score >= minimum_eligible_scores.min_essay
+                        AND NOT EXISTS (
+                            SELECT 1 
+                            FROM single_edu_eligible_marks seem
+                            WHERE seem.exam_type = applicant_records.exam_type
+                            AND (
+                                applicant_records.sub_1 < seem.sub_1 OR
+                                applicant_records.sub_2 < seem.sub_2 OR
+                                applicant_records.sub_3 < seem.sub_3 OR
+                                applicant_records.sub_4 < seem.sub_4 OR
+                                applicant_records.sub_5 < seem.sub_5 OR
+                                applicant_records.sub_6 < seem.sub_6
+                            )
+                            LIMIT 1
+                        )
                     ) THEN 1 END) as eligible_count,
 
                 COUNT(CASE 

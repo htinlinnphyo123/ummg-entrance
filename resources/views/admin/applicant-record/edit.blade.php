@@ -25,10 +25,10 @@
             <x-form.input_group type="number" title="applicantRecord.sub_6" name="sub_6" labelID="lab-sub-6" placeholder="enter_mark" :value="$data['sub_6']" />            
             </x-form.grid>
             <x-form.grid>
-                <x-form.input_group type="number" title="applicantRecord.program_score" name="program_score" id="program_score" :value="$data['program_score']" placeholder="enter_mark" />
-                <x-form.input_group type="number" title="applicantRecord.essay_score" name="essay_score" id="essay_score" :value="$data['essay_score']" />
-                <x-form.input_group type="number" title="applicantRecord.mental_score" name="mental_score" id="mental_score" :value="$data['mental_score']" />
-                <x-form.simple_select title="applicantRecord.activity_type" name="activity_type" id="activity_type" :selected="$data['activity_type']">
+                <x-form.input_group type="number" title="applicantRecord.program_score" name="program_score" id="program_score" :value="$data['program_score']" placeholder="enter_mark" :customAttributes="['step'=>'0.01']" />
+                <x-form.input_group type="number" title="applicantRecord.essay_score" name="essay_score" id="essay_score" :value="$data['essay_score']" :customAttributes="['step'=>'0.01']" />
+                <x-form.input_group type="number" title="applicantRecord.mental_score" name="mental_score" id="mental_score" :value="$data['mental_score']" :customAttributes="['step'=>'0.01']" />
+                <x-form.simple_select title="applicantRecord.activity_type" name="activity_type" id="activity_type" :selected="$data['activity_type']" >
                     @foreach (App\Enums\ActivityType::cases() as $activityType)
                         <option value="{{ $activityType->value }}" @if($data['activity_type'] == $activityType->value) selected @endif>{{ $activityType->name }}</option>
                     @endforeach
