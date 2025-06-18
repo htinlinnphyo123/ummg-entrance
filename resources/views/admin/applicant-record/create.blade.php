@@ -18,7 +18,7 @@
             <x-form.grid>
                 @php
                     $id = request()->route('id') || 1;
-                    if ($id === 1 || $id === 2) {
+                    if ($id === 1 || $id === 2 || $id === 5) {
                         $sub1 = 'Myanmar';
                         $sub2 = 'English';
                         $sub3 = 'Math';

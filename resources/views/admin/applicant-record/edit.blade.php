@@ -17,12 +17,12 @@
                 @endforeach
             </x-form.simple_select>
             <x-form.grid>
-            <x-form.input_group type="number" title="applicantRecord.sub_1" name="sub_1" labelID="lab-sub-1" placeholder="enter_mark" :value="$data['sub_1']" />
-            <x-form.input_group type="number" title="applicantRecord.sub_2" name="sub_2" labelID="lab-sub-2" placeholder="enter_mark" :value="$data['sub_2']" />
-            <x-form.input_group type="number" title="applicantRecord.sub_3" name="sub_3" labelID="lab-sub-3" placeholder="enter_mark" :value="$data['sub_3']" />
-            <x-form.input_group type="number" title="applicantRecord.sub_4" name="sub_4" labelID="lab-sub-4" placeholder="enter_mark" :value="$data['sub_4']" />
-            <x-form.input_group type="number" title="applicantRecord.sub_5" name="sub_5" labelID="lab-sub-5" placeholder="enter_mark" :value="$data['sub_5']" />
-            <x-form.input_group type="number" title="applicantRecord.sub_6" name="sub_6" labelID="lab-sub-6" placeholder="enter_mark" :value="$data['sub_6']" />            
+            <x-form.input_group type="number" containerId="container-sub1" title="applicantRecord.sub_1" name="sub_1" labelID="lab-sub-1" placeholder="enter_mark" :value="$data['sub_1']" />
+            <x-form.input_group type="number" containerId="container-sub2" title="applicantRecord.sub_2" name="sub_2" labelID="lab-sub-2" placeholder="enter_mark" :value="$data['sub_2']" />
+            <x-form.input_group type="number" containerId="container-sub3" title="applicantRecord.sub_3" name="sub_3" labelID="lab-sub-3" placeholder="enter_mark" :value="$data['sub_3']" />
+            <x-form.input_group type="number" containerId="container-sub4" title="applicantRecord.sub_4" name="sub_4" labelID="lab-sub-4" placeholder="enter_mark" :value="$data['sub_4']" />
+            <x-form.input_group type="number" containerId="container-sub5" title="applicantRecord.sub_5" name="sub_5" labelID="lab-sub-5" placeholder="enter_mark" :value="$data['sub_5']" />
+            <x-form.input_group type="number" containerId="container-sub6" title="applicantRecord.sub_6" name="sub_6" labelID="lab-sub-6" placeholder="enter_mark" :value="$data['sub_6']" />            
             </x-form.grid>
             <x-form.grid>
                 <x-form.input_group type="number" title="applicantRecord.program_score" name="program_score" id="program_score" :value="$data['program_score']" placeholder="enter_mark" :customAttributes="['step'=>'0.01']" />

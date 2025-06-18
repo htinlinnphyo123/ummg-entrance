@@ -7,6 +7,7 @@ enum ExamType: string
     case BECA = 'BECA';
     case GED = 'GED';
     case IGCSE = 'IGCSE';
+    case ETHNICAL = 'ETHNICAL';
     public static function toArray(): array
     {
         return array_column(self::cases(), 'value');
@@ -18,6 +19,7 @@ enum ExamType: string
             'BECA' => 'BECA',
             'GED' => 'GED',
             'IGCSE' => 'IGCSE',
+            'ETHNICAL' => 'ETHNICAL',
         ];
     }
 }

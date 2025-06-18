@@ -5,7 +5,7 @@
             @method('PUT')
             @php
                 $id = $data['id'];
-                if($id===1 || $id===2){
+                if($id===1 || $id===2 || $id=5){
                     $sub1='Myanmar';$sub2='English';$sub3='Math';$sub4='Physics';$sub5='Chemistry';$sub6='Biology';
                 }elseif($id===3){
                     $sub1='Social';$sub2='RLA';$sub3='Maths';$sub4='Science';
