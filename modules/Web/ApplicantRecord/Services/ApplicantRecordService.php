@@ -100,11 +100,11 @@ class ApplicantRecordService extends BaseController
 
     ///////////////////////////This is Method Divider///////////////////////////////////////
 
-    public function destroy($request): RedirectResponse
+    public function destroy($id): RedirectResponse
     {
          try {
             $this->applicantRecordRepositoryInterface->beginTransaction();
-            $this->applicantRecordRepositoryInterface->delete($request['id']);
+            $this->applicantRecordRepositoryInterface->delete($id);
             $this->applicantRecordRepositoryInterface->commit();
             return $this->redirectRoute(self::ROUTE . ".index", __(self::LANG_PATH . '_deleted'));
         } catch (Exception $e) {

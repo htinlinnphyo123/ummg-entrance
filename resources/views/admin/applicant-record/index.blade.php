@@ -195,6 +195,13 @@
                                         </button>
                                     </form>
                                 @endif
+                                <form action="{{ route('applicantRecords.destroy', $record['id']) }}" method="POST" class="whitespace-nowrap">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-xs px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600" onclick="return confirm('Are you sure you want to delete this record?Application ID - {{ $record['applicant_sr'] }}')">
+                                        Delete
+                                    </button>
+                                </form>
                             </x-table.action_new>
                         </x-table.body_row>
                     @endforeach

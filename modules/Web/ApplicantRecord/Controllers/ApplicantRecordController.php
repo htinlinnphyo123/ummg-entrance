@@ -73,9 +73,9 @@ class ApplicantRecordController extends BaseController
 
     ///////////////////////////This is Method Divider///////////////////////////////////////
 
-    public function destroy(DeleteApplicantRecordRequest $request): RedirectResponse
+    public function destroy(string $id): RedirectResponse
     {
-        return $this->applicantRecordService->destroy($request->validated());
+        return $this->applicantRecordService->destroy($id);
     }
 
     ///////////////////////////This is Method Divider///////////////////////////////////////
