@@ -234,7 +234,7 @@ class ApplicantRecordRepository extends BaseRepository implements ApplicantRecor
                             ORDER BY margin_score DESC
                             LIMIT 1
                         ) < minimum_eligible_scores.min_education
-                        OR applicant_records.mental_score < minimum_eligible_scores.min_mental
+                        OR applicant_records.mental_score > minimum_eligible_scores.min_mental
                         OR applicant_records.program_score < minimum_eligible_scores.min_program
                         OR applicant_records.essay_score < minimum_eligible_scores.min_essay
                     ) AND manual_eligible != 1 THEN 1 END) as not_eligible_count,
