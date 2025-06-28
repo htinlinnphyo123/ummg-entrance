@@ -37,7 +37,7 @@ class StoreApplicantRecordRequest extends FormRequest
             "sub_4" => "nullable|numeric",
             "sub_5" => "nullable|numeric",
             "sub_6" => "nullable|numeric",
-            "program_score" => "required|numeric",
+            "program_score" => "nullable|numeric",
             "essay_score" => "nullable|numeric",
             "mental_score" => "nullable|numeric",
             "activity_type" => "nullable",

@@ -29,9 +29,9 @@ class ApplicantRecordRepository extends BaseRepository implements ApplicantRecor
                     LIMIT 1
                 ) >= minimum_eligible_scores.min_education
                 AND applicant_records.is_bio = 1
-                AND applicant_records.mental_score <= minimum_eligible_scores.min_mental
+                AND applicant_records.mental_score <= COALESCE(minimum_eligible_scores.min_mental, 0)
                 AND applicant_records.program_score >= minimum_eligible_scores.min_program
-                AND applicant_records.essay_score >= minimum_eligible_scores.min_essay
+                AND applicant_records.essay_score >= COALESCE(minimum_eligible_scores.min_essay, 0)
                 AND NOT EXISTS (
                     SELECT 1
                     FROM single_edu_eligible_marks seem
@@ -105,10 +105,10 @@ class ApplicantRecordRepository extends BaseRepository implements ApplicantRecor
                         LIMIT 1
                     )
                     THEN 'pass' ELSE 'fail' END as education_eligible"),
-                \DB::raw("CASE WHEN applicant_records.mental_score <= minimum_eligible_scores.min_mental THEN 'pass' ELSE 'fail' END as mental_eligible"),
-                \DB::raw("CASE WHEN applicant_records.activity_score >= minimum_eligible_scores.min_activity THEN 'pass' ELSE 'fail' END as activity_eligible"),
+                \DB::raw("CASE WHEN applicant_records.mental_score <= COALESCE(minimum_eligible_scores.min_mental, 0) THEN 'pass' ELSE 'fail' END as mental_eligible"),
+                \DB::raw("CASE WHEN applicant_records.activity_score >= COALESCE(minimum_eligible_scores.min_activity, 0) THEN 'pass' ELSE 'fail' END as activity_eligible"),
                 \DB::raw("CASE WHEN applicant_records.program_score >= minimum_eligible_scores.min_program THEN 'pass' ELSE 'fail' END as program_eligible"),
-                \DB::raw("CASE WHEN applicant_records.essay_score >= minimum_eligible_scores.min_essay THEN 'pass' ELSE 'fail' END as essay_eligible"),
+                \DB::raw("CASE WHEN applicant_records.essay_score >= COALESCE(minimum_eligible_scores.min_essay, 0) THEN 'pass' ELSE 'fail' END as essay_eligible"),
                 \DB::raw("(
                     COALESCE((
                         SELECT eligible_score
@@ -118,9 +118,9 @@ class ApplicantRecordRepository extends BaseRepository implements ApplicantRecor
                         ORDER BY margin_score DESC
                         LIMIT 1
                     ), 0)
-                     + applicant_records.essay_score
+                     + COALESCE(applicant_records.essay_score, 0)
                     + applicant_records.program_score
-                    + applicant_records.activity_score
+                    + COALESCE(applicant_records.activity_score, 0)
                 ) as total_scores"),
                 \DB::raw("(" . $this->getEligibilitySubquery() . ") as final_eligibility"),
                 \DB::raw("(
