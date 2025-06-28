@@ -16,11 +16,47 @@ class ApplicantRecordRepository extends BaseRepository implements ApplicantRecor
         parent::__construct($model);
     }
 
+    // Extract the eligibility logic to ensure consistency
+    private function getEligibilitySubquery()
+    {
+        return "CASE
+            WHEN (
+                (SELECT eligible_score
+                    FROM education_eligible_score
+                    WHERE education_eligible_score.exam_type = applicant_records.exam_type
+                    AND education_eligible_score.margin_score <= applicant_records.total_edu_marks
+                    ORDER BY education_eligible_score.margin_score DESC
+                    LIMIT 1
+                ) >= minimum_eligible_scores.min_education
+                AND applicant_records.is_bio = 1
+                AND applicant_records.mental_score <= minimum_eligible_scores.min_mental
+                AND applicant_records.program_score >= minimum_eligible_scores.min_program
+                AND applicant_records.essay_score >= minimum_eligible_scores.min_essay
+                AND NOT EXISTS (
+                    SELECT 1
+                    FROM single_edu_eligible_marks seem
+                    WHERE seem.exam_type = applicant_records.exam_type
+                    AND (
+                        applicant_records.sub_1 < seem.sub_1 OR
+                        applicant_records.sub_2 < seem.sub_2 OR
+                        applicant_records.sub_3 < seem.sub_3 OR
+                        applicant_records.sub_4 < seem.sub_4 OR
+                        applicant_records.sub_5 < seem.sub_5 OR
+                        applicant_records.sub_6 < seem.sub_6
+                    )
+                    LIMIT 1
+                )
+            )
+            THEN 'Eligible'
+            ELSE 'Not Eligible'
+        END";
+    }
+
     public function getApplicantRecordList($params): Collection|LengthAwarePaginator
     {
         // Get filter values from session if not in params
         $examType = $params['exam_type'] ?? false;
-        $sortTaken = $params['sort_taken'] ?? false; 
+        $sortTaken = $params['sort_taken'] ?? false;
         $sortApplicantId = $params['sort_applicant_id'] ?? false;
         $keyword = $params['keyword'] ?? false;
         $sortEligible = $params['sort_eligible'] ?? false;
@@ -44,19 +80,19 @@ class ApplicantRecordRepository extends BaseRepository implements ApplicantRecor
                     ORDER BY margin_score DESC
                     LIMIT 1
                 ) as education_score'),
-                \DB::raw("CASE 
-                    WHEN (
+                \DB::raw("CASE
+                     WHEN (
                         SELECT eligible_score
                         FROM education_eligible_score
                         WHERE education_eligible_score.exam_type = applicant_records.exam_type
                         AND education_eligible_score.margin_score <= applicant_records.total_edu_marks
                         ORDER BY margin_score DESC
                         LIMIT 1
-                    ) >= minimum_eligible_scores.min_education 
-                    AND applicant_records.is_bio = 1
+                    ) >= minimum_eligible_scores.min_education
+                     AND applicant_records.is_bio = 1
                     AND NOT EXISTS (
-                        SELECT 1 
-                        FROM single_edu_eligible_marks seem
+                        SELECT 1
+                         FROM single_edu_eligible_marks seem
                         WHERE seem.exam_type = applicant_records.exam_type
                         AND (
                             applicant_records.sub_1 < seem.sub_1 OR
@@ -70,7 +106,7 @@ class ApplicantRecordRepository extends BaseRepository implements ApplicantRecor
                     )
                     THEN 'pass' ELSE 'fail' END as education_eligible"),
                 \DB::raw("CASE WHEN applicant_records.mental_score <= minimum_eligible_scores.min_mental THEN 'pass' ELSE 'fail' END as mental_eligible"),
-                \DB::raw("CASE WHEN applicant_records.activity_score >= minimum_eligible_scores.min_activity THEN 'pass' ELSE 'fail' END as activity_eligible"), 
+                \DB::raw("CASE WHEN applicant_records.activity_score >= minimum_eligible_scores.min_activity THEN 'pass' ELSE 'fail' END as activity_eligible"),
                 \DB::raw("CASE WHEN applicant_records.program_score >= minimum_eligible_scores.min_program THEN 'pass' ELSE 'fail' END as program_eligible"),
                 \DB::raw("CASE WHEN applicant_records.essay_score >= minimum_eligible_scores.min_essay THEN 'pass' ELSE 'fail' END as essay_eligible"),
                 \DB::raw("(
@@ -81,52 +117,15 @@ class ApplicantRecordRepository extends BaseRepository implements ApplicantRecor
                           AND education_eligible_score.margin_score <= applicant_records.total_edu_marks
                         ORDER BY margin_score DESC
                         LIMIT 1
-                    ), 0) 
-                    + applicant_records.essay_score
+                    ), 0)
+                     + applicant_records.essay_score
                     + applicant_records.program_score
                     + applicant_records.activity_score
                 ) as total_scores"),
-                \DB::raw("CASE 
-                    WHEN (
-                        (SELECT eligible_score
-                            FROM education_eligible_score
-                            WHERE education_eligible_score.exam_type = applicant_records.exam_type
-                            AND education_eligible_score.margin_score <= applicant_records.total_edu_marks
-                            ORDER BY education_eligible_score.margin_score DESC
-                            LIMIT 1
-                        ) IS NULL
-                        OR (SELECT eligible_score
-                            FROM education_eligible_score
-                            WHERE education_eligible_score.exam_type = applicant_records.exam_type
-                            AND education_eligible_score.margin_score <= applicant_records.total_edu_marks
-                            ORDER BY education_eligible_score.margin_score DESC
-                            LIMIT 1
-                        ) < minimum_eligible_scores.min_education
-                        OR applicant_records.mental_score > minimum_eligible_scores.min_mental
-                        OR applicant_records.program_score < minimum_eligible_scores.min_program
-                        OR applicant_records.essay_score < minimum_eligible_scores.min_essay
-                        OR EXISTS (
-                            SELECT 1 
-                            FROM single_edu_eligible_marks seem
-                            WHERE seem.exam_type = applicant_records.exam_type
-                            AND (
-                                applicant_records.sub_1 < seem.sub_1 OR
-                                applicant_records.sub_2 < seem.sub_2 OR
-                                applicant_records.sub_3 < seem.sub_3 OR
-                                applicant_records.sub_4 < seem.sub_4 OR
-                                applicant_records.sub_5 < seem.sub_5 OR
-                                applicant_records.sub_6 < seem.sub_6
-                            )
-                            LIMIT 1
-                        )
-                    )
-                    THEN 'Not Eligible'
-                    ELSE 'Eligible'
-                END as final_eligibility"),
-                
+                \DB::raw("(" . $this->getEligibilitySubquery() . ") as final_eligibility"),
                 \DB::raw("(
-                    SELECT 
-                        CASE WHEN applicant_records.sub_1 >= seem.sub_1 THEN 1 ELSE 0 END +
+                    SELECT
+                         CASE WHEN applicant_records.sub_1 >= seem.sub_1 THEN 1 ELSE 0 END +
                         CASE WHEN applicant_records.sub_2 >= seem.sub_2 THEN 1 ELSE 0 END +
                         CASE WHEN applicant_records.sub_3 >= seem.sub_3 THEN 1 ELSE 0 END +
                         CASE WHEN applicant_records.sub_4 >= seem.sub_4 THEN 1 ELSE 0 END +
@@ -152,10 +151,10 @@ class ApplicantRecordRepository extends BaseRepository implements ApplicantRecor
             })
             ->when($sortEligible, function ($query) {
                 $query->orderByRaw("
-                    CASE 
-                        WHEN final_eligibility = 'Eligible' THEN 1
-                        WHEN final_eligibility = 'Not Eligible' AND manual_eligible = 1 THEN 2 
-                        ELSE 3
+                    CASE
+                         WHEN final_eligibility = 'Eligible' THEN 1
+                        WHEN final_eligibility = 'Not Eligible' AND manual_eligible = 1 THEN 2
+                         ELSE 3
                     END
                 ");
             })
@@ -164,82 +163,18 @@ class ApplicantRecordRepository extends BaseRepository implements ApplicantRecor
         return $applications;
     }
 
-    public function getCount($params)    
+    public function getCount($params)
     {
         return \DB::table('applicant_records')
             ->leftJoin('minimum_eligible_scores', 'minimum_eligible_scores.id', '=', \DB::raw('1'))
             ->selectRaw("
-                COUNT(CASE 
-                    WHEN (
-                        (SELECT eligible_score
-                            FROM education_eligible_score
-                            WHERE education_eligible_score.exam_type = applicant_records.exam_type
-                            AND education_eligible_score.margin_score <= applicant_records.total_edu_marks
-                            ORDER BY margin_score DESC
-                            LIMIT 1
-                        ) >= minimum_eligible_scores.min_education
-                        AND applicant_records.mental_score <= minimum_eligible_scores.min_mental
-                        AND applicant_records.program_score >= minimum_eligible_scores.min_program
-                        AND applicant_records.essay_score >= minimum_eligible_scores.min_essay
-                        AND NOT EXISTS (
-                            SELECT 1 
-                            FROM single_edu_eligible_marks seem
-                            WHERE seem.exam_type = applicant_records.exam_type
-                            AND (
-                                applicant_records.sub_1 < seem.sub_1 OR
-                                applicant_records.sub_2 < seem.sub_2 OR
-                                applicant_records.sub_3 < seem.sub_3 OR
-                                applicant_records.sub_4 < seem.sub_4 OR
-                                applicant_records.sub_5 < seem.sub_5 OR
-                                applicant_records.sub_6 < seem.sub_6
-                            )
-                            LIMIT 1
-                        )
-                    ) THEN 1 END) as eligible_count,
-
-                COUNT(CASE 
-                    WHEN (
-                        (SELECT eligible_score
-                            FROM education_eligible_score
-                            WHERE education_eligible_score.exam_type = applicant_records.exam_type
-                            AND education_eligible_score.margin_score <= applicant_records.total_edu_marks
-                            ORDER BY margin_score DESC
-                            LIMIT 1
-                        ) IS NULL
-                        OR (SELECT eligible_score
-                            FROM education_eligible_score
-                            WHERE education_eligible_score.exam_type = applicant_records.exam_type
-                            AND education_eligible_score.margin_score <= applicant_records.total_edu_marks
-                            ORDER BY margin_score DESC
-                            LIMIT 1
-                        ) < minimum_eligible_scores.min_education
-                        OR applicant_records.mental_score > minimum_eligible_scores.min_mental
-                        OR applicant_records.program_score < minimum_eligible_scores.min_program
-                        OR applicant_records.essay_score < minimum_eligible_scores.min_essay
-                    ) AND manual_eligible = 1 THEN 1 END) as manual_eligible_count,
-
-                COUNT(CASE 
-                    WHEN (
-                        (SELECT eligible_score
-                            FROM education_eligible_score
-                            WHERE education_eligible_score.exam_type = applicant_records.exam_type
-                            AND education_eligible_score.margin_score <= applicant_records.total_edu_marks
-                            ORDER BY margin_score DESC
-                            LIMIT 1
-                        ) IS NULL
-                        OR (SELECT eligible_score
-                            FROM education_eligible_score
-                            WHERE education_eligible_score.exam_type = applicant_records.exam_type
-                            AND education_eligible_score.margin_score <= applicant_records.total_edu_marks
-                            ORDER BY margin_score DESC
-                            LIMIT 1
-                        ) < minimum_eligible_scores.min_education
-                        OR applicant_records.mental_score > minimum_eligible_scores.min_mental
-                        OR applicant_records.program_score < minimum_eligible_scores.min_program
-                        OR applicant_records.essay_score < minimum_eligible_scores.min_essay
-                    ) AND manual_eligible != 1 THEN 1 END) as not_eligible_count,
-                     
-                    COUNT(CASE WHEN applicant_records.final_take = 1 THEN 1 END) as final_take_count
+                COUNT(CASE WHEN (" . $this->getEligibilitySubquery() . ") = 'Eligible' THEN 1 END) as eligible_count,
+                
+                COUNT(CASE WHEN (" . $this->getEligibilitySubquery() . ") = 'Not Eligible' AND manual_eligible = 1 THEN 1 END) as manual_eligible_count,
+                
+                COUNT(CASE WHEN (" . $this->getEligibilitySubquery() . ") = 'Not Eligible' AND (manual_eligible != 1 OR manual_eligible IS NULL) THEN 1 END) as not_eligible_count,
+                
+                COUNT(CASE WHEN applicant_records.final_take = 1 THEN 1 END) as final_take_count
             ")
             ->when($params['exam_type'] ?? false, function ($query) use ($params) {
                 $query->where('applicant_records.exam_type', $params['exam_type']);

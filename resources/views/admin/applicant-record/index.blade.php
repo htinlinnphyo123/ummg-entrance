@@ -65,7 +65,7 @@
                             <x-table.body_column :field="$record['exam_type']"  />
                             <x-table.body_column :field="$record['is_bio'] ? 'Yes' : 'No'"  />
                             <x-table.body_column :field="$record['additional_data1']"  />
-                            <x-table.body_column :field="$record['total_edu_marks'] . ' / ' . $record['total_passed_subject']"  />
+                            <x-table.body_column :field="$record['total_edu_marks'] . ' - ' . $record['total_passed_subject']"  />
                             @php
                                 $educationEligible = $record['education_eligible'] == 'pass' ? "<span class='text-green-500'>pass</span>" : "<span class='text-red-500'>fail</span>";
                                 $essayEligible = $record['essay_eligible'] == 'pass' ? "<span class='text-green-500'>pass</span>" : "<span class='text-red-500'>fail</span>";
