@@ -118,7 +118,8 @@ class ApplicantRecordService extends BaseController
     {
         try {
             $this->applicantRecordRepositoryInterface->beginTransaction();
-            $this->applicantRecordRepositoryInterface->connection(true)->where('id', $id)->update(['manual_eligible' => true]);
+            $record = $this->applicantRecordRepositoryInterface->connection(true)->where('id', $id)->first();
+            $this->applicantRecordRepositoryInterface->connection(true)->where('id', $id)->update(['manual_eligible' => !$record->manual_eligible]);
             $this->applicantRecordRepositoryInterface->commit();
             return $this->redirectRoute(self::ROUTE . ".index", __(self::LANG_PATH . '_manualEligible'));
         } catch (Exception $e) {
