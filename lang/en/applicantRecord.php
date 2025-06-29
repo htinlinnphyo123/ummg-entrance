@@ -31,5 +31,5 @@ return [
     'activity_type' => 'Activity Type',
     'program_score' => 'Program Score',
     'total_edu_marks' => 'Total Educational Marks', 
-    'applicantRecord_manualEligible' => 'Application was successfully marked as manually eligible',
+    'applicantRecord_manualEligible' => 'Application take result has changed successfully',
 ];
