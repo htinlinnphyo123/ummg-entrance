@@ -53,70 +53,135 @@
                 <script>
                     function copyFinalTakeApplicants() {
                         // Get the final take applicants data from backend
-                        const finalTakeApplicants = "{{ $data[2] }}";
+                        const finalTakeApplicants = "{{ $data[2] }}"; // Replace with {{ $data[2] }}
 
-                        // Copy to clipboard
-                        navigator.clipboard.writeText(finalTakeApplicants).then(() => {
-                            // Create and show toast message
-                            const toast = document.createElement('div');
-                            toast.className =
-                                'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded shadow-lg z-50 animate-fade-in-up';
-                            toast.innerHTML = `
-            <div class="flex items-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span>Final take applicants copied successfully!</span>
-            </div>
-        `;
+                        // Function to copy text using fallback method for HTTP
+                        function copyTextFallback(text) {
+                            // Create a temporary textarea element
+                            const textArea = document.createElement('textarea');
+                            textArea.value = text;
+                            textArea.style.position = 'fixed';
+                            textArea.style.left = '-999999px';
+                            textArea.style.top = '-999999px';
+                            document.body.appendChild(textArea);
 
-                            document.body.appendChild(toast);
+                            // Select and copy the text
+                            textArea.focus();
+                            textArea.select();
 
-                            // Remove toast after 3 seconds
-                            setTimeout(() => {
-                                toast.classList.add('animate-fade-out-down');
-                                setTimeout(() => toast.remove(), 300);
-                            }, 3000);
-                        }).catch(err => {
-                            console.error('Failed to copy:', err);
-                            alert('Failed to copy final take applicants');
-                        });
+                            try {
+                                const successful = document.execCommand('copy');
+                                document.body.removeChild(textArea);
+                                return successful;
+                            } catch (err) {
+                                document.body.removeChild(textArea);
+                                return false;
+                            }
+                        }
+
+                        // Try modern clipboard API first (HTTPS), fallback to execCommand (HTTP)
+                        if (navigator.clipboard && window.isSecureContext) {
+                            navigator.clipboard.writeText(finalTakeApplicants).then(() => {
+                                showSuccessToast();
+                            }).catch(err => {
+                                console.error('Clipboard API failed:', err);
+                                // Fallback to execCommand
+                                if (copyTextFallback(finalTakeApplicants)) {
+                                    showSuccessToast();
+                                } else {
+                                    showErrorToast();
+                                }
+                            });
+                        } else {
+                            // Use fallback method for HTTP environments
+                            if (copyTextFallback(finalTakeApplicants)) {
+                                showSuccessToast();
+                            } else {
+                                showErrorToast();
+                            }
+                        }
                     }
 
-                    // Add these styles to your CSS
+                    function showSuccessToast() {
+                        // Create and show success toast message
+                        const toast = document.createElement('div');
+                        toast.className =
+                            'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded shadow-lg z-50 animate-fade-in-up';
+                        toast.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>Final take applicants copied successfully!</span>
+                </div>
+            `;
+
+                        document.body.appendChild(toast);
+
+                        // Remove toast after 3 seconds
+                        setTimeout(() => {
+                            toast.classList.add('animate-fade-out-down');
+                            setTimeout(() => toast.remove(), 300);
+                        }, 3000);
+                    }
+
+                    function showErrorToast() {
+                        // Create and show error toast message
+                        const toast = document.createElement('div');
+                        toast.className =
+                            'fixed bottom-4 right-4 bg-red-500 text-white px-6 py-3 rounded shadow-lg z-50 animate-fade-in-up';
+                        toast.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                    <span>Failed to copy final take applicants</span>
+                </div>
+            `;
+
+                        document.body.appendChild(toast);
+
+                        // Remove toast after 3 seconds
+                        setTimeout(() => {
+                            toast.classList.add('animate-fade-out-down');
+                            setTimeout(() => toast.remove(), 300);
+                        }, 3000);
+                    }
+
+                    // Add CSS animations
                     document.head.insertAdjacentHTML('beforeend', `
-    <style>
-        .animate-fade-in-up {
-            animation: fadeInUp 0.3s ease-out;
-        }
-        
-        .animate-fade-out-down {
-            animation: fadeOutDown 0.3s ease-out;
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes fadeOutDown {
-            from {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            to {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-        }
-    </style>
-`);
+            <style>
+                .animate-fade-in-up {
+                    animation: fadeInUp 0.3s ease-out;
+                }
+                
+                .animate-fade-out-down {
+                    animation: fadeOutDown 0.3s ease-out;
+                }
+                
+                @keyframes fadeInUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+                
+                @keyframes fadeOutDown {
+                    from {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                    to {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                }
+            </style>
+        `);
                 </script>
             </div>
             @php
