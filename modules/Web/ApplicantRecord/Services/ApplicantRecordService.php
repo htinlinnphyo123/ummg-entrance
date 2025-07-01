@@ -2,14 +2,15 @@
 
 namespace BasicDashboard\Web\ApplicantRecord\Services;
 
-use BasicDashboard\Foundations\Domain\ApplicantRecord\Repositories\ApplicantRecordRepositoryInterface;
-use BasicDashboard\Web\ApplicantRecord\Resources\ApplicantRecordIndexResource;
+use Exception;
+use Illuminate\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\RedirectResponse;
 use BasicDashboard\Web\Common\BaseController;
 use BasicDashboard\Web\ApplicantRecord\Resources\ApplicantRecordResource;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
-use Exception;
-use Illuminate\Http\JsonResponse;
+use BasicDashboard\Web\ApplicantRecord\Resources\ApplicantRecordIndexResource;
+use BasicDashboard\Foundations\Domain\ApplicantRecord\Repositories\ApplicantRecordRepositoryInterface;
 
 /**
  *
@@ -44,7 +45,8 @@ class ApplicantRecordService extends BaseController
             ->where('final_take', 1)
             ->pluck('applicant_sr')
             ->implode(',');
-        return $this->returnView(self::VIEW.".index", data: [$applicantRecordList,$applicantRecordCount,$finalTakeApplicants]);
+        $allowToggle = (int) DB::table('settings')->where('key', 'allow_toggle_final_take')->first()->value;
+        return $this->returnView(self::VIEW.".index", data: [$applicantRecordList,$applicantRecordCount,$finalTakeApplicants,$allowToggle]);
     }
 
     ///////////////////////////This is Method Divider///////////////////////////////////////

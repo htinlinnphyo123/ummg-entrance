@@ -3,6 +3,15 @@
         <div class="container px-1 md:px-6 mx-auto grid">
             <div class="container md:flex justify-start md:justify-between items-start mx-auto mt-5">
                 <x-common.search keyword="{{ request()->keyword }}" />
+                <form method="POST" action="{{ route('applicantRecords.toggleFinalTake') }}"
+                    class="flex flex-col md:flex-row items-center gap-2">
+                    @csrf
+                    @method('PUT')
+                    <button type="submit" id="toggleFinalTakeBtn"
+                        class="px-4 py-2 text-sm font-medium text-white bg-indigo-500 rounded hover:bg-indigo-600">
+                        {{ \App\Models\Setting::where('key', 'allow_toggle_final_take')->first()->value ? 'Lock' : 'UnLock' }} Final Take Record
+                    </button>
+                </form>
                 <x-common.create_button route="applicantRecords.create" permission="create applicantRecords" />
             </div>
             <div class="mt-4 flex gap-4">
@@ -313,9 +322,11 @@
                                 }
                             @endphp
                             <x-table.body_column :style="$finalEligibilityColor" :field="$record['manual_eligible'] ? 'Take' : $record['final_eligibility']" />
-                            <td class="px-6 py-4">
-                                <label class="relative inline-flex items-center cursor-pointer">
+                            <td class="px-6 py-4 ">
+                                <label
+                                    class="relative inline-flex items-center {{ $data[3] == 1 ? 'cursor-pointer' : 'cursor-not-allowed' }}">
                                     <input type="checkbox" class="sr-only peer"
+                                        @if ($data[3] !== 1) disabled @endif
                                         {{ $record['final_take'] ? 'checked' : '' }}
                                         onchange="updateFinalTake(this, '{{ $record['id'] }}')">
                                     <div

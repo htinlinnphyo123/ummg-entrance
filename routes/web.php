@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Setting;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use BasicDashboard\Web\Auth\Controllers\AuthController;
@@ -30,6 +32,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/applicantRecords/{id}/manual-eligible', [ApplicantRecordController::class, 'manualEligible'])->name('applicantRecords.manualEligible');
     Route::patch('/applicantRecords/{id}/update-final-take', [ApplicantRecordController::class, 'updateFinalTake'])->name('applicantRecords.updateFinalTake');
 });
+Route::put('update-final-take-record-setting', function() {
+    $setting = Setting::where('key', 'allow_toggle_final_take')->first();
+    if ($setting) {
+        $setting->value = $setting->value == 1 ? 0 : 1;
+        $setting->save();
+        return back()->with('success', 'Setting updated successfully');
+    }
+    return back()->with('error', 'Setting not found');
+})->name('applicantRecords.toggleFinalTake');
 Route::get('/profile', [UserController::class, 'profile'])->name('userProfile')->middleware('auth');
 
 Route::get('hello',function(){
