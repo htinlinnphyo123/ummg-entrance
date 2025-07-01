@@ -40,7 +40,11 @@ class ApplicantRecordService extends BaseController
         $applicantRecordList = $this->applicantRecordRepositoryInterface->getApplicantRecordList($request);
         $applicantRecordCount = $this->applicantRecordRepositoryInterface->getCount($request);
         $applicantRecordList = ApplicantRecordIndexResource::collection($applicantRecordList)->response()->getData(true);
-        return $this->returnView(self::VIEW.".index", data: [$applicantRecordList,$applicantRecordCount]);
+        $finalTakeApplicants = $this->applicantRecordRepositoryInterface->connection(true)
+            ->where('final_take', 1)
+            ->pluck('applicant_sr')
+            ->implode(',');
+        return $this->returnView(self::VIEW.".index", data: [$applicantRecordList,$applicantRecordCount,$finalTakeApplicants]);
     }
 
     ///////////////////////////This is Method Divider///////////////////////////////////////

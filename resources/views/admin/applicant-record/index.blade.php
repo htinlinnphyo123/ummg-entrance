@@ -44,6 +44,80 @@
                         Sort By Applicant ID
                     </button>
                 </form>
+                <button type="button" id="copyFinalTakeBtn"
+                    class="px-4 py-2 text-sm font-medium text-white bg-orange-500 rounded hover:bg-orange-600"
+                    onclick="copyFinalTakeApplicants()">
+                    Copy Final Take Applicants
+                </button>
+
+                <script>
+                    function copyFinalTakeApplicants() {
+                        // Get the final take applicants data from backend
+                        const finalTakeApplicants = "{{ $data[2] }}";
+
+                        // Copy to clipboard
+                        navigator.clipboard.writeText(finalTakeApplicants).then(() => {
+                            // Create and show toast message
+                            const toast = document.createElement('div');
+                            toast.className =
+                                'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded shadow-lg z-50 animate-fade-in-up';
+                            toast.innerHTML = `
+            <div class="flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span>Final take applicants copied successfully!</span>
+            </div>
+        `;
+
+                            document.body.appendChild(toast);
+
+                            // Remove toast after 3 seconds
+                            setTimeout(() => {
+                                toast.classList.add('animate-fade-out-down');
+                                setTimeout(() => toast.remove(), 300);
+                            }, 3000);
+                        }).catch(err => {
+                            console.error('Failed to copy:', err);
+                            alert('Failed to copy final take applicants');
+                        });
+                    }
+
+                    // Add these styles to your CSS
+                    document.head.insertAdjacentHTML('beforeend', `
+    <style>
+        .animate-fade-in-up {
+            animation: fadeInUp 0.3s ease-out;
+        }
+        
+        .animate-fade-out-down {
+            animation: fadeOutDown 0.3s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeOutDown {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+    </style>
+`);
+                </script>
             </div>
             @php
                 $eligibleCount = $data[1]->eligible_count;
