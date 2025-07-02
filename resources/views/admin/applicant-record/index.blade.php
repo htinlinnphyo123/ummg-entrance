@@ -1,6 +1,6 @@
 <x-master-layout name="ApplicantRecord" headerName="{{ __('sidebar.applicantRecord') }}">
     <main class="h-full overflow-y-auto">
-        <div class="container px-1 md:px-6 mx-auto grid">
+        <div class="px-1 md:px-6 mx-auto grid">
             <div class="container md:flex justify-start md:justify-between items-start mx-auto mt-5">
                 <x-common.search keyword="{{ request()->keyword }}" />
                 <form method="POST" action="{{ route('applicantRecords.toggleFinalTake') }}"
